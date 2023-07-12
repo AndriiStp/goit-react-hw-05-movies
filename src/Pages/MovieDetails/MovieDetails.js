@@ -31,7 +31,9 @@ const MovieDetails = () => {
           }
           alt={title}
         />
-        <h1>{title}</h1>
+        <h1>
+          {title}({release_date.substring(0, 4)})
+        </h1>
         <p>User Score: {votePercent}%</p>
         <h2>Overview</h2>
         <p>{overview}</p>
