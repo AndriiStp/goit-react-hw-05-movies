@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { fetchDetails } from 'Service/Api.js';
 
@@ -44,12 +44,13 @@ const MovieDetails = () => {
         <h2>Additional information</h2>
         <ul>
           <li>
-            <Link to={`/movies/${movieId}/cast`}>Cast</Link>
+            <Link to="cast">Cast</Link>
           </li>
           <li>
-            <Link to={`/movies/${movieId}/reviews`}>Reviews</Link>
+            <Link to="reviews">Reviews</Link>
           </li>
         </ul>
+        <Outlet />
       </div>
     </>
   );
