@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { fetchDetails } from 'Service/Api.js';
 
 const MovieDetails = () => {
   const { movieId } = useParams();
   const [movieDetails, setMovieDetails] = useState(null);
+  const location = useLocation();
+  const backLinkLocationRef = useRef(location.state?.from ?? '/movies');
 
   useEffect(() => {
     fetchDetails(movieId).then(resp => setMovieDetails(resp));
@@ -22,6 +24,7 @@ const MovieDetails = () => {
   return (
     <>
       <div>
+        <Link to={backLinkLocationRef.current}>Back</Link>
         <img
           src={
             poster_path

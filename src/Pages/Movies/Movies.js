@@ -1,12 +1,20 @@
 import React from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
-import { useState } from 'react';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { fetchSearchMovies } from 'Service/Api';
 
 const Movies = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useState('');
   const [searchResult, setSearchResult] = useState([]);
+  const location = useLocation();
+
+  useEffect(() => {
+    const queryParam = new URLSearchParams(location.search).get('query');
+    if (queryParam) {
+      setQuery(queryParam);
+    }
+  }, [location.search]);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -39,7 +47,9 @@ const Movies = () => {
       {searchResult.map(movie => (
         <ul key={movie.id}>
           <li>
-            <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
+            <Link to={`/movies/${movie.id}`} state={{ from: location }}>
+              {movie.title}
+            </Link>
           </li>
         </ul>
       ))}
