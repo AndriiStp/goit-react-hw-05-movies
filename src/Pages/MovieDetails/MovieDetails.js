@@ -10,7 +10,6 @@ const MovieDetails = () => {
   useEffect(() => {
     fetchDetails(movieId).then(resp => setMovieDetails(resp));
   }, [movieId]);
-  // console.log(movieDetails);
 
   if (!movieDetails) {
     return <div>Please wait...</div>;
