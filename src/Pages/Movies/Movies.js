@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { fetchSearchMovies } from 'Service/Api';
 
 const Movies = () => {
   const [movieName, setMovieName] = useState('');
   const [searchResult, setSearchResult] = useState([]);
   const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchQuery = searchParams.get('query');
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -13,7 +15,7 @@ const Movies = () => {
       alert('Please enter a valid query');
       return;
     }
-    fetchSearchMovies(movieName).then(resp => setSearchResult(resp));
+    setSearchParams({ query: movieName });
     setMovieName('');
   };
 
@@ -22,13 +24,10 @@ const Movies = () => {
   };
 
   useEffect(() => {
-    if (movieName.trim() === '') {
-      setSearchResult([]);
-      return;
-    }
+    if (!searchQuery) return;
 
-    fetchSearchMovies(movieName).then(resp => setSearchResult(resp));
-  }, [movieName]);
+    fetchSearchMovies(searchQuery).then(resp => setSearchResult(resp));
+  }, [searchQuery]);
 
   return (
     <div>
