@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { fetchSearchMovies } from 'Service/Api';
+import css from './Movies.module.css';
 
 const Movies = () => {
   const [movieName, setMovieName] = useState('');
@@ -33,6 +34,7 @@ const Movies = () => {
     <div>
       <form onSubmit={handleSubmit}>
         <input
+          className={css.input}
           type="text"
           placeholder="Enter your query"
           autoComplete="off"
@@ -40,10 +42,12 @@ const Movies = () => {
           onChange={handleChange}
           value={movieName}
         />
-        <button type="submit">Search</button>
+        <button className={css.button_submit} type="submit">
+          Search
+        </button>
       </form>
       {searchResult.map(movie => (
-        <ul key={movie.id}>
+        <ul className={css.list} key={movie.id}>
           <li>
             <Link to={`/movies/${movie.id}`} state={{ from: location }}>
               {movie.title}

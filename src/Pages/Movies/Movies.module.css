@@ -1,0 +1,17 @@
+.button_submit {
+  height: 30px;
+  font-size: 14px;
+}
+
+.input {
+  height: 30px;
+  width: 300px;
+  margin-left: 20px;
+  margin-right: 20px;
+  border: none;
+  background-color: rgb(228, 223, 223);
+}
+
+.list {
+  list-style: none;
+}

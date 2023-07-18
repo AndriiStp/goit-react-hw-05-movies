@@ -3,6 +3,7 @@ import { Link, Outlet, useLocation } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { fetchDetails } from 'Service/Api.js';
 import { Suspense } from 'react';
+import css from './MovieDetails.module.css';
 
 const MovieDetails = () => {
   const { movieId } = useParams();
@@ -27,7 +28,9 @@ const MovieDetails = () => {
     <>
       <div>
         <Link to={backLinkLocationRef.current}>
-          <button type="button">Go back</button>
+          <button className={css.goback} type="button">
+            Go back
+          </button>
         </Link>
         <img
           src={
