@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { fetchDetails } from 'Service/Api.js';
+import { Suspense } from 'react';
 
 const MovieDetails = () => {
   const { movieId } = useParams();
@@ -10,6 +11,7 @@ const MovieDetails = () => {
   const backLinkLocationRef = useRef(location.state?.from ?? '/movies');
 
   useEffect(() => {
+    if (!movieId) return;
     fetchDetails(movieId).then(resp => setMovieDetails(resp));
   }, [movieId]);
 
@@ -24,7 +26,9 @@ const MovieDetails = () => {
   return (
     <>
       <div>
-        <Link to={backLinkLocationRef.current}>Back</Link>
+        <Link to={backLinkLocationRef.current}>
+          <button type="button">Go back</button>
+        </Link>
         <img
           src={
             poster_path
@@ -52,7 +56,9 @@ const MovieDetails = () => {
             <Link to="reviews">Reviews</Link>
           </li>
         </ul>
-        <Outlet />
+        <Suspense fallback={<div>Loading...</div>}>
+          <Outlet />
+        </Suspense>
       </div>
     </>
   );

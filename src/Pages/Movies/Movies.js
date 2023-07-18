@@ -1,35 +1,34 @@
-import React from 'react';
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { fetchSearchMovies } from 'Service/Api';
 
 const Movies = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [query, setQuery] = useState('');
+  const [movieName, setMovieName] = useState('');
   const [searchResult, setSearchResult] = useState([]);
   const location = useLocation();
 
-  useEffect(() => {
-    const queryParam = new URLSearchParams(location.search).get('query');
-    if (queryParam) {
-      setQuery(queryParam);
-    }
-  }, [location.search]);
-
   const handleSubmit = e => {
     e.preventDefault();
-    if (query.trim() === '') {
-      alert('Please Enter a valid query');
+    if (movieName.trim() === '') {
+      alert('Please enter a valid query');
       return;
     }
-    setSearchParams({ query });
-    fetchSearchMovies(query).then(resp => setSearchResult(resp));
-    setQuery('');
+    fetchSearchMovies(movieName).then(resp => setSearchResult(resp));
+    setMovieName('');
   };
 
   const handleChange = ({ target }) => {
-    setQuery(target.value);
+    setMovieName(target.value);
   };
+
+  useEffect(() => {
+    if (movieName.trim() === '') {
+      setSearchResult([]);
+      return;
+    }
+
+    fetchSearchMovies(movieName).then(resp => setSearchResult(resp));
+  }, [movieName]);
 
   return (
     <div>
@@ -40,7 +39,7 @@ const Movies = () => {
           autoComplete="off"
           autoFocus
           onChange={handleChange}
-          value={query}
+          value={movieName}
         />
         <button type="submit">Search</button>
       </form>
